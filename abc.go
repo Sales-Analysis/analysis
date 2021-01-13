@@ -12,7 +12,7 @@ import (
 	"sort"
 )
 
-// ABC ...
+// A ABC represents set of methods for the analysis
 type ABC struct {
 	Measure             []string
 	Dimension           []float64
