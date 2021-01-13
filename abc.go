@@ -1,9 +1,18 @@
+/*
+In materials management, ABC analysis is an inventory categorization technique.
+ABC analysis divides an inventory into three categories:
+	"A items" with very tight control and accurate records,
+	"B items" with less tightly controlled and good records,
+	"C items" with the simplest controls possible and minimal records.
+*/
+
 package abc
 
 import (
 	"sort"
 )
 
+// ABC ...
 type ABC struct {
 	Measure             []string
 	Dimension           []float64
@@ -65,6 +74,7 @@ func (abc *ABC) accumDeposit() {
 
 // add group A or B or C for each position
 func (abc *ABC) addGroup() {
+	// TODO границы групп сделать изменяемыми
 	var g []string
 
 	for _, v := range abc.AccumulativeDeposit {

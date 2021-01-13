@@ -33,36 +33,39 @@ var cost = []float64{
 	600,
 }
 
-func check(t *testing.T, a float64, b float64) {
+func initABC() *ABC {
+	return &ABC{
+		Measure:   goods,
+		Dimension: cost,
+	}
+}
+
+func status(t *testing.T, a float64, b float64) {
 	if a != b {
 		t.Errorf("got %f want %f", a, b)
 	}
 }
 
-func TestSumDimension(t *testing.T) {
-	abc := &ABC{
-		Measure:   goods,
-		Dimension: cost,
+func TestSum(t *testing.T) {
+	checkSum := func(t *testing.T, got float64, want float64) {
+		t.Helper()
+		status(t, got, want)
 	}
-	want := 2100.0
-	check(t, abc.sumDimension(), want)
-}
 
-func TestSumPercent(t *testing.T) {
-	abc := &ABC{
-		Measure:   goods,
-		Dimension: cost,
-	}
-	abc.deposit()
-	want := 100.0
-	check(t, abc.sumPercent(), want)
+	t.Run("SumDimension", func(t *testing.T) {
+		abc := initABC()
+		checkSum(t, abc.sumDimension(), 2100.0)
+	})
+
+	t.Run("TestCalcABC", func(t *testing.T) {
+		abc := initABC()
+		abc.deposit()
+		checkSum(t, abc.sumPercent(), 100.0)
+	})
 }
 
 func TestCalcABC(t *testing.T) {
-	abc := &ABC{
-		Measure:   goods,
-		Dimension: cost,
-	}
+	abc := initABC()
 	abc.sort()
 	abc.deposit()
 
@@ -73,11 +76,11 @@ func TestCalcABC(t *testing.T) {
 		totalDeposit += v
 	}
 	want := 100.0
-	check(t, totalDeposit, want)
+	status(t, totalDeposit, want)
 
 	abc.accumDeposit()
 	v := abc.AccumulativeDeposit[len(abc.AccumulativeDeposit)-1]
-	check(t, v, want)
+	status(t, v, want)
 
 	abc.addGroup()
 
