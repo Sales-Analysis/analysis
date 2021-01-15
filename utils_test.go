@@ -25,3 +25,10 @@ func TestFindErrorCase(t *testing.T) {
 		}
 	}
 }
+
+func TestSum(t *testing.T) {
+	total := sum(data)
+	if total != 6.0 {
+		t.Errorf("sum slice %f not equal %f", data, 6.0)
+	}
+}

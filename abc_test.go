@@ -46,7 +46,7 @@ func status(t *testing.T, a float64, b float64) {
 	}
 }
 
-func TestSum(t *testing.T) {
+func TestSumTotal(t *testing.T) {
 	checkSum := func(t *testing.T, got float64, want float64) {
 		t.Helper()
 		status(t, got, want)
