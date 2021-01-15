@@ -64,8 +64,28 @@ func TestSum(t *testing.T) {
 	})
 }
 
+/*
+var goods = []string{
+	"Товар1",
+	"Товар2",
+	"Товар3",
+	"Товар1",
+	"Товар5",
+	"Товар6",
+}
+
+var cost = []float64{
+	100,
+	200,
+	300,
+	400,
+	500,
+	600,
+}
+*/
+
 func TestCalcABC(t *testing.T) {
-	abc := initABC()
+	abc := GetABC(goods, cost)
 	abc.sort()
 	abc.deposit()
 
@@ -79,6 +99,45 @@ func TestCalcABC(t *testing.T) {
 	status(t, totalDeposit, want)
 
 	abc.accumDeposit()
+	v := abc.AccumulativeDeposit[len(abc.AccumulativeDeposit)-1]
+	status(t, v, want)
+
+	abc.addGroup()
+}
+
+var goods1 = []string{
+	"Товар1",
+	"Товар2",
+	"Товар3",
+	"Товар1",
+	"Товар5",
+	"Товар6",
+}
+
+var cost1 = []float64{
+	100, // "Товар1"
+	200,
+	300,
+	400, // "Товар1"
+	500,
+	600,
+}
+
+func TestCalcABC1(t *testing.T) {
+	abc := GetABC(goods1, cost1)
+	abc.sort()
+
+	abc.deposit()
+	d := abc.Deposit
+
+	totalDeposit := 0.0
+	for _, v := range d {
+		totalDeposit += v
+	}
+	want := 100.0
+	status(t, totalDeposit, want)
+	abc.accumDeposit()
+
 	v := abc.AccumulativeDeposit[len(abc.AccumulativeDeposit)-1]
 	status(t, v, want)
 

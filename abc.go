@@ -12,12 +12,21 @@ import (
 	"sort"
 )
 
-// A ABC represents set of methods for the analysis
+// ABC represents set of methods for the analysis
 type ABC struct {
 	Measure             []string
 	Dimension           []float64
 	Deposit             []float64
 	AccumulativeDeposit []float64
+}
+
+// GetABC return link to the struct ABC
+func GetABC(measure []string, dimension []float64) *ABC {
+	measure, dimension = validate(measure, dimension)
+	return &ABC{
+		Measure:   measure,
+		Dimension: dimension,
+	}
 }
 
 // sum of all dimensions
@@ -33,37 +42,36 @@ func (abc *ABC) sumPercent() float64 {
 // sorting positions in descending order
 func (abc *ABC) sort() {
 	d := make([]float64, len(abc.Dimension))
-	m := make([]string, len(abc.Dimension))
 
 	copy(d, abc.Dimension)
 	sort.Sort(sort.Reverse(sort.Float64Slice(d)))
 
+	var m []string
 	for _, v := range d {
-		i := sort.SearchFloat64s(abc.Dimension, v)
+		i, _ := find(abc.Dimension, v)
 		m = append(m, abc.Measure[i])
 	}
+
 	abc.Measure = m
 	abc.Dimension = d
 }
 
 // determine deposit each position
 func (abc *ABC) deposit() {
-	var p []float64
+	var d []float64
 
 	s := abc.sumDimension()
 
 	for _, v := range abc.Dimension {
 		percent := v * 100.0 / s
-		p = append(p, percent)
+		d = append(d, percent)
 	}
-
-	abc.Deposit = p
+	abc.Deposit = d
 }
 
 // accumulative percentage
 func (abc *ABC) accumDeposit() {
 	var a []float64
-
 	accum := 0.0
 	for _, v := range abc.Deposit {
 		accum += v
