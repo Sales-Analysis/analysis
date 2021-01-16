@@ -1,6 +1,7 @@
 package abc
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -142,5 +143,33 @@ func TestCalcABC1(t *testing.T) {
 	status(t, v, want)
 
 	abc.addGroup()
+
+}
+
+func TestCheckSize(t *testing.T) {
+	measure1 := []string{}
+	dimension1 := []float64{1, 2, 3}
+
+	if err := checkSize(measure1, dimension1); err != nil {
+		if fmt.Sprintf("%s", err) != measureNotEqualZero {
+			t.Errorf("'%s' error codes must be '%s'", err, measureNotEqualZero)
+		}
+	}
+
+	measure2 := []string{"a", "b"}
+	dimension2 := []float64{}
+	if err := checkSize(measure2, dimension2); err != nil {
+		if fmt.Sprintf("%s", err) != dimensionNotEqualZero {
+			t.Errorf("'%s' error codes must be '%s'", err, dimensionNotEqualZero)
+		}
+	}
+
+	measure3 := []string{"a", "b", "c"}
+	dimension3 := []float64{0, 1}
+	if err := checkSize(measure3, dimension3); err != nil {
+		if fmt.Sprintf("%s", err) != measureNotEqualDimension {
+			t.Errorf("'%s' error codes must be '%s'", err, measureNotEqualDimension)
+		}
+	}
 
 }

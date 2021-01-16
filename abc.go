@@ -22,7 +22,10 @@ type ABC struct {
 
 // GetABC return link to the struct ABC
 func GetABC(measure []string, dimension []float64) *ABC {
-	measure, dimension = validate(measure, dimension)
+	measure, dimension, err := validate(measure, dimension)
+	if err != nil {
+		return &ABC{}
+	}
 	return &ABC{
 		Measure:   measure,
 		Dimension: dimension,
