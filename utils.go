@@ -20,3 +20,15 @@ func find(arr []float64, value float64) (int, bool) {
 	}
 	return -1, false
 }
+
+// mapToSlice return two slice keys/values
+func mapToSlice(data map[string]float64) ([]string, []float64) {
+	var keys []string
+	var values []float64
+
+	for key, value := range data {
+		keys = append(keys, key)
+		values = append(values, value)
+	}
+	return keys, values
+}

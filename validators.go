@@ -48,14 +48,3 @@ func uniqueMeasures(measure []string, dimension []float64) ([]string, []float64)
 	}
 	return mapToSlice(d)
 }
-
-func mapToSlice(data map[string]float64) ([]string, []float64) {
-	var keys []string
-	var values []float64
-
-	for key, value := range data {
-		keys = append(keys, key)
-		values = append(values, value)
-	}
-	return keys, values
-}
