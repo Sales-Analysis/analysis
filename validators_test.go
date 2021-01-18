@@ -39,3 +39,21 @@ func TestNegativeValue(t *testing.T) {
 		checkStatusError(t, err, negativeValueDimension)
 	}
 }
+
+func TestUniqueMeasure(t *testing.T) {
+	measure := []string{"a", "b", "c", "a", "b", "b1"}
+	dimension := []float64{1.0, 2.0, 3.0, 4.0, 5.0, 6.0}
+
+	measure, dimension = uniqueMeasures(measure, dimension)
+	if len(measure) != len(dimension) {
+		t.Errorf("size measure '%d' not equal size dimension '%d'", len(measure), len(dimension))
+	}
+	want := []float64{5.0, 7.0, 3.0, 6.0}
+	for i, v := range want {
+		if v != dimension[i] {
+			t.Errorf("value dimension not equal test data: %f != %f", v, dimension[i])
+		}
+	}
+
+	fmt.Println(measure, dimension)
+}
