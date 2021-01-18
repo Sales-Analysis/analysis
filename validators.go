@@ -1,34 +1,34 @@
 package abc
 
-func validate(measure []string, dimension []float64) ([]string, []float64, error) {
-	if err := checkSize(measure, dimension); err != nil {
-		return measure, dimension, err
+func validate(measures []string, dimensions []float64) ([]string, []float64, error) {
+	if err := checkSize(measures, dimensions); err != nil {
+		return measures, dimensions, err
 	}
-	if err := negativeValue(dimension); err != nil {
-		return measure, dimension, err
+	if err := negativeValue(dimensions); err != nil {
+		return measures, dimensions, err
 	}
-	measure, dimension = uniqueMeasures(measure, dimension)
-	return measure, dimension, nil
+	measures, dimensions = uniqueMeasures(measures, dimensions)
+	return measures, dimensions, nil
 }
 
 // checkSize check length measure/dimension
-func checkSize(measure []string, dimension []float64) error {
-	if len(measure) == 0 {
-		return sizeErr(measureNotEqualZero)
-	} else if len(dimension) == 0 {
-		return sizeErr(dimensionNotEqualZero)
-	} else if len(measure) != len(dimension) {
-		return sizeErr(measureNotEqualDimension)
+func checkSize(measures []string, dimensions []float64) error {
+	if len(measures) == 0 {
+		return sizeErr(measuresNotEqualZero)
+	} else if len(dimensions) == 0 {
+		return sizeErr(dimensionsNotEqualZero)
+	} else if len(measures) != len(dimensions) {
+		return sizeErr(measuresNotEqualDimensions)
 	}
 	return nil
 }
 
 // negativeValue return error if there is one negative value
-func negativeValue(dimension []float64) error {
+func negativeValue(dimensions []float64) error {
 
-	for _, v := range dimension {
+	for _, v := range dimensions {
 		if v < 0.0 {
-			return negativeValueErr(negativeValueDimension)
+			return negativeValueErr(negativeValueDimensions)
 		}
 	}
 
@@ -36,14 +36,14 @@ func negativeValue(dimension []float64) error {
 }
 
 // uniqueMeasures return new array without duplucate
-func uniqueMeasures(measure []string, dimension []float64) ([]string, []float64) {
+func uniqueMeasures(measures []string, dimensions []float64) ([]string, []float64) {
 	d := make(map[string]float64)
 
-	for i, v := range measure {
+	for i, v := range measures {
 		if _, ok := d[v]; ok {
-			d[v] += dimension[i]
+			d[v] += dimensions[i]
 		} else {
-			d[v] = dimension[i]
+			d[v] = dimensions[i]
 		}
 	}
 	return mapToSlice(d)

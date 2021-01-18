@@ -35,8 +35,8 @@ var cost = []float64{
 
 func initABC() *ABC {
 	return &ABC{
-		Measure:   goods,
-		Dimension: cost,
+		Measures:   goods,
+		Dimensions: cost,
 	}
 }
 
@@ -52,9 +52,9 @@ func TestSumTotal(t *testing.T) {
 		status(t, got, want)
 	}
 
-	t.Run("SumDimension", func(t *testing.T) {
+	t.Run("SumDimensions", func(t *testing.T) {
 		abc := initABC()
-		checkSum(t, abc.sumDimension(), 2100.0)
+		checkSum(t, abc.sumDimensions(), 2100.0)
 	})
 
 	t.Run("TestCalcABC", func(t *testing.T) {

@@ -14,27 +14,27 @@ import (
 
 // ABC represents set of methods for the analysis
 type ABC struct {
-	Measure             []string
-	Dimension           []float64
+	Measures            []string
+	Dimensions          []float64
 	Deposit             []float64
 	AccumulativeDeposit []float64
 }
 
 // GetABC return link to the struct ABC
-func GetABC(measure []string, dimension []float64) *ABC {
-	measure, dimension, err := validate(measure, dimension)
+func GetABC(measures []string, dimensions []float64) *ABC {
+	measures, dimensions, err := validate(measures, dimensions)
 	if err != nil {
 		return &ABC{}
 	}
 	return &ABC{
-		Measure:   measure,
-		Dimension: dimension,
+		Measures:   measures,
+		Dimensions: dimensions,
 	}
 }
 
 // sum of all dimensions
-func (abc *ABC) sumDimension() float64 {
-	return sum(abc.Dimension)
+func (abc *ABC) sumDimensions() float64 {
+	return sum(abc.Dimensions)
 }
 
 // sum of all deposit
@@ -44,28 +44,28 @@ func (abc *ABC) sumPercent() float64 {
 
 // sorting positions in descending order
 func (abc *ABC) sort() {
-	d := make([]float64, len(abc.Dimension))
+	d := make([]float64, len(abc.Dimensions))
 
-	copy(d, abc.Dimension)
+	copy(d, abc.Dimensions)
 	sort.Sort(sort.Reverse(sort.Float64Slice(d)))
 
 	var m []string
 	for _, v := range d {
-		i, _ := find(abc.Dimension, v)
-		m = append(m, abc.Measure[i])
+		i, _ := find(abc.Dimensions, v)
+		m = append(m, abc.Measures[i])
 	}
 
-	abc.Measure = m
-	abc.Dimension = d
+	abc.Measures = m
+	abc.Dimensions = d
 }
 
 // determine deposit each position
 func (abc *ABC) deposit() {
 	var d []float64
 
-	s := abc.sumDimension()
+	s := abc.sumDimensions()
 
-	for _, v := range abc.Dimension {
+	for _, v := range abc.Dimensions {
 		percent := v * 100.0 / s
 		d = append(d, percent)
 	}

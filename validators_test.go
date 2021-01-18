@@ -2,6 +2,7 @@ package abc
 
 import (
 	"fmt"
+	"sort"
 	"testing"
 )
 
@@ -12,48 +13,48 @@ func checkStatusError(t *testing.T, err error, status string) {
 }
 
 func TestCheckSize(t *testing.T) {
-	measure1 := []string{}
-	dimension1 := []float64{1, 2, 3}
+	measures1 := []string{}
+	dimensions1 := []float64{1, 2, 3}
 
-	if err := checkSize(measure1, dimension1); err != nil {
-		checkStatusError(t, err, measureNotEqualZero)
+	if err := checkSize(measures1, dimensions1); err != nil {
+		checkStatusError(t, err, measuresNotEqualZero)
 	}
 
-	measure2 := []string{"a", "b"}
-	dimension2 := []float64{}
-	if err := checkSize(measure2, dimension2); err != nil {
-		checkStatusError(t, err, dimensionNotEqualZero)
+	measures2 := []string{"a", "b"}
+	dimensions2 := []float64{}
+	if err := checkSize(measures2, dimensions2); err != nil {
+		checkStatusError(t, err, dimensionsNotEqualZero)
 	}
 
-	measure3 := []string{"a", "b", "c"}
-	dimension3 := []float64{0, 1}
-	if err := checkSize(measure3, dimension3); err != nil {
-		checkStatusError(t, err, measureNotEqualDimension)
+	measures3 := []string{"a", "b", "c"}
+	dimensions3 := []float64{0, 1}
+	if err := checkSize(measures3, dimensions3); err != nil {
+		checkStatusError(t, err, measuresNotEqualDimensions)
 	}
 
 }
 
 func TestNegativeValue(t *testing.T) {
-	dimension := []float64{1, 2, 3, 4, -5, 6}
-	if err := negativeValue(dimension); err != nil {
-		checkStatusError(t, err, negativeValueDimension)
+	dimensions := []float64{1, 2, 3, 4, -5, 6}
+	if err := negativeValue(dimensions); err != nil {
+		checkStatusError(t, err, negativeValueDimensions)
 	}
 }
 
 func TestUniqueMeasure(t *testing.T) {
-	measure := []string{"a", "b", "c", "a", "b", "b1"}
-	dimension := []float64{1.0, 2.0, 3.0, 4.0, 5.0, 6.0}
+	measures := []string{"a", "b", "c", "a", "b", "b1"}
+	dimensions := []float64{1.0, 2.0, 3.0, 4.0, 5.0, 6.0}
 
-	measure, dimension = uniqueMeasures(measure, dimension)
-	if len(measure) != len(dimension) {
-		t.Errorf("size measure '%d' not equal size dimension '%d'", len(measure), len(dimension))
+	measures, dimensions = uniqueMeasures(measures, dimensions)
+	if len(measures) != len(dimensions) {
+		t.Errorf("size measure '%d' not equal size dimension '%d'", len(measures), len(dimensions))
 	}
-	want := []float64{5.0, 7.0, 3.0, 6.0}
+	sort.Float64s(dimensions)
+	want := []float64{3.0, 5.0, 6.0, 7.0}
+
 	for i, v := range want {
-		if v != dimension[i] {
-			t.Errorf("value dimension not equal test data: %f != %f", v, dimension[i])
+		if v != dimensions[i] {
+			t.Errorf("value dimension not equal test data: %f != %f", v, dimensions[i])
 		}
 	}
-
-	fmt.Println(measure, dimension)
 }
