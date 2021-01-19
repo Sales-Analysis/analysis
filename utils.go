@@ -10,9 +10,19 @@ func sum(arr []float64) float64 {
 
 }
 
+// TODO переделать в универсальную функцию
 // find takes a slice and looks for an element in it. If found it will
 // return it's key, otherwise it will return -1 and a bool of false.
-func find(arr []float64, value float64) (int, bool) {
+func findFloat64(arr []float64, value float64) (int, bool) {
+	for i, v := range arr {
+		if v == value {
+			return i, true
+		}
+	}
+	return -1, false
+}
+
+func findInt(arr []int, value int) (int, bool) {
 	for i, v := range arr {
 		if v == value {
 			return i, true

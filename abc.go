@@ -18,41 +18,58 @@ type ABC struct {
 	Dimensions          []float64
 	Deposit             []float64
 	AccumulativeDeposit []float64
+	Group               []string
+	SumDeposit          float64
+	SumDimensions       float64
 }
 
 // GetABC return link to the struct ABC
-func GetABC(measures []string, dimensions []float64) *ABC {
+func GetABC(measures []string, dimensions []float64) (*ABC, error) {
 	measures, dimensions, err := validate(measures, dimensions)
 	if err != nil {
-		return &ABC{}
+		return &ABC{}, err
 	}
-	return &ABC{
+	abc := &ABC{
 		Measures:   measures,
 		Dimensions: dimensions,
 	}
+	abc.sort()
+	abc.sumDimensions()
+	abc.sumPercent()
+	abc.deposit()
+	abc.accumDeposit()
+	abc.addGroup()
+	return abc, nil
 }
 
 // sum of all dimensions
-func (abc *ABC) sumDimensions() float64 {
-	return sum(abc.Dimensions)
+func (abc *ABC) sumDimensions() {
+	abc.SumDimensions = sum(abc.Dimensions)
 }
 
 // sum of all deposit
-func (abc *ABC) sumPercent() float64 {
-	return sum(abc.Deposit)
+func (abc *ABC) sumPercent() {
+	abc.SumDeposit = sum(abc.Deposit)
 }
 
 // sorting positions in descending order
 func (abc *ABC) sort() {
+	// fmt.Println(abc.Measures, abc.Dimensions)
 	d := make([]float64, len(abc.Dimensions))
 
 	copy(d, abc.Dimensions)
 	sort.Sort(sort.Reverse(sort.Float64Slice(d)))
 
 	var m []string
+	var idx []int
 	for _, v := range d {
-		i, _ := find(abc.Dimensions, v)
+		i, _ := findFloat64(abc.Dimensions, v)
+		if _, ok := findInt(idx, i); ok {
+			i++
+		}
 		m = append(m, abc.Measures[i])
+		idx = append(idx, i)
+
 	}
 
 	abc.Measures = m
@@ -63,10 +80,8 @@ func (abc *ABC) sort() {
 func (abc *ABC) deposit() {
 	var d []float64
 
-	s := abc.sumDimensions()
-
 	for _, v := range abc.Dimensions {
-		percent := v * 100.0 / s
+		percent := v * 100.0 / abc.SumDimensions
 		d = append(d, percent)
 	}
 	abc.Deposit = d
@@ -97,4 +112,5 @@ func (abc *ABC) addGroup() {
 			g = append(g, "C")
 		}
 	}
+	abc.Group = g
 }
