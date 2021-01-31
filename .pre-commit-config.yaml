@@ -4,6 +4,7 @@ default_stages: [commit]
   hooks:
     - id: go-fmt
     - id: go-vet
+    - id: go-test
     - id: go-lint
     - id: go-imports
     - id: go-cyclo
