@@ -35,8 +35,8 @@ func GetABC(measures []string, dimensions []float64) (*ABC, error) {
 	}
 	abc.sort()
 	abc.sumDimensions()
-	abc.sumPercent()
 	abc.deposit()
+	abc.sumPercent()
 	abc.accumDeposit()
 	abc.addGroup()
 	return abc, nil
