@@ -16,4 +16,9 @@ repos:
         language: system
         always_run: true
         files: ^$
-
+          #-   id: lint
+          #    name: lint
+          #    entry: golint  
+          #    language: system
+          #    always_run: true
+          #    files: ^$  
