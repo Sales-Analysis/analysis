@@ -10,4 +10,10 @@ repos:
         language: system
         always_run: true
         files: ^$
-  
+    -   id: vet
+        name: vet
+        entry: go vet       
+        language: system
+        always_run: true
+        files: ^$
+
