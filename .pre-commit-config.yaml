@@ -22,4 +22,15 @@ repos:
         language: system
         always_run: true
         files: ^$
-
+    -   id: mod tidy
+        name: mod tidy
+        entry: go mod tidy -v 
+        language: system
+        always_run: true
+        files: ^$  
+    -   id: mod vendor
+        name: mod vendor
+        entry: go mod vendor 
+        language: system
+        always_run: true
+        files: ^$ 
