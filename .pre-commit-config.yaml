@@ -4,20 +4,21 @@ exclude: ^be/
 repos:
 -   repo: local
     hooks:
-    -   id: fmt
-        name: fmt
-        entry: gofmt -l -d ./
-        language: system
+    -   id: go-fmt
+        name: 'go-fmt'
+        entry: run-go-fmt.sh
+        language: 'script'
+        files: '\.go$'
         always_run: true
-        files: ^$
+        description: "Runs `go fmt`"
     -   id: vet
         name: vet
         entry: go vet       
         language: system
         always_run: true
         files: ^$
-    -   id: go-unit-tests
-        name: 'go-unit-tests'
+    -   id: go-tests
+        name: 'go-tests'
         entry: run-go-tests.sh
         language: 'script'
         files: '\.go$'
