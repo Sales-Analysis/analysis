@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 FILES = $(go list ./... | grep -v /vendor/)
 

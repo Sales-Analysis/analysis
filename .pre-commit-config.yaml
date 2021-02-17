@@ -19,8 +19,9 @@ repos:
     -   id: go-unit-tests
         name: 'go-unit-tests'
         entry: run-go-tests.sh
-        files: '\.go$'
         language: 'script'
+        files: '\.go$'
+        always_run: true
         description: "Runs `go test`"          
     -   id: mod tidy
         name: mod tidy
