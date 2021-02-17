@@ -35,7 +35,7 @@ func TestCheckSize(t *testing.T) {
 }
 
 func TestNegativeValue(t *testing.T) {
-	dimensions := []float64{1, 2, 3, 4, -5, 6}
+	dimensions := []float64{1, 2, 3, 4, 5, 6}
 	if err := negativeValue(dimensions); err != nil {
 		checkStatusError(t, err, negativeValueDimensions)
 	}
