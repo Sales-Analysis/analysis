@@ -18,10 +18,9 @@ repos:
         files: ^$
     -   id: test
         name: test
-        entry: go test 
-        language: system
-        always_run: true
-        files: ^$
+        entry: run-go-tests.sh 
+        language: script
+        files: '\.go$'
     -   id: mod tidy
         name: mod tidy
         entry: go mod tidy -v 
@@ -34,3 +33,9 @@ repos:
         language: system
         always_run: true
         files: ^$ 
+          #-   id: mod build
+          #name: mod build
+          #entry: go build go list ./...  | grep -v /vendor/
+          #language: system
+          #always_run: true
+          #files: ^$ 
