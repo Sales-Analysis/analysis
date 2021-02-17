@@ -6,7 +6,7 @@ repos:
     hooks:
     -   id: go-fmt
         name: 'go-fmt'
-        entry: run-go-fmt.sh
+        entry: hooks/run-go-fmt.sh
         language: 'script'
         files: '\.go$'
         always_run: true
@@ -19,7 +19,7 @@ repos:
         files: ^$
     -   id: go-tests
         name: 'go-tests'
-        entry: run-go-tests.sh
+        entry: hooks/run-go-tests.sh
         language: 'script'
         files: '\.go$'
         always_run: true
