@@ -25,21 +25,24 @@ repos:
         files: '\.go$'
         always_run: true
         description: "Runs `go test`"          
-    -   id: mod tidy
-        name: mod tidy
-        entry: go mod tidy -v 
-        language: system
-        always_run: true
-        files: ^$  
-    -   id: mod vendor
-        name: mod vendor
-        entry: go mod vendor 
-        language: system
-        always_run: true
-        files: ^$ 
-          #-   id: mod build
-          #name: mod build
-          #entry: go build go list ./...  | grep -v /vendor/
-          #language: system
-          #always_run: true
-          #files: ^$ 
+    -   id: go-build
+        name: 'go-build'
+        entry: hooks/run-go-build.sh
+        files: '\.go$'
+        language: 'script'
+        always_run: true         
+        description: "Runs `go build`, requires golang"
+    -   id: go-mod-tidy
+        name: 'go-mod-tidy'
+        entry: hooks/run-go-mod-tidy.sh
+        files: '\.go$'
+        language: 'script'
+        always_run: true         
+        description: "Runs `go mod tidy -v`, requires golang"
+    -   id: go-mod-vendor
+        name: 'go-mod-vendor'
+        entry: hooks/run-go-mod-vendor.sh
+        files: '\.go$'
+        language: 'script'
+        always_run: true         
+        description: "Runs `go mod vendor`, requires golang"
