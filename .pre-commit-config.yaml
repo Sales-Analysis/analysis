@@ -16,11 +16,12 @@ repos:
         language: system
         always_run: true
         files: ^$
-    -   id: test
-        name: test
-        entry: run-go-tests.sh 
-        language: script
+    -   id: go-unit-tests
+        name: 'go-unit-tests'
+        entry: run-go-unit-tests.sh
         files: '\.go$'
+        language: 'script'
+        description: "Runs `go test`"          
     -   id: mod tidy
         name: mod tidy
         entry: go mod tidy -v 
