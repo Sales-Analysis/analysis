@@ -35,7 +35,7 @@ func negativeValue(dimensions []float64) error {
 	return nil
 }
 
-// uniqueMeasures return new array without duplucate
+// uniqueMeasures return new array without duplicate
 func uniqueMeasures(measures []string, dimensions []float64) ([]string, []float64) {
 	d := make(map[string]float64)
 

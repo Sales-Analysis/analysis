@@ -13,7 +13,7 @@ func checkStatusError(t *testing.T, err error, status string) {
 }
 
 func TestCheckSize(t *testing.T) {
-	measures1 := []string{}
+	var measures1 []string
 	dimensions1 := []float64{1, 2, 3}
 
 	if err := checkSize(measures1, dimensions1); err != nil {
@@ -21,7 +21,7 @@ func TestCheckSize(t *testing.T) {
 	}
 
 	measures2 := []string{"a", "b"}
-	dimensions2 := []float64{}
+	var dimensions2 []float64
 	if err := checkSize(measures2, dimensions2); err != nil {
 		checkStatusError(t, err, dimensionsNotEqualZero)
 	}
