@@ -18,7 +18,7 @@ repos:
         files: ^$
     -   id: go-unit-tests
         name: 'go-unit-tests'
-        entry: run-go-unit-tests.sh
+        entry: run-go-tests.sh
         files: '\.go$'
         language: 'script'
         description: "Runs `go test`"          
