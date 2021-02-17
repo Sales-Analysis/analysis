@@ -13,36 +13,36 @@ repos:
         description: "Runs `go fmt`"
     -   id: go-vet
         name: 'go-vet'
-        entry: hooks/run-go-vet.sh       
+        entry: hooks/run-go-vet.sh
         language: 'script'
         files: '\.go$'
         always_run: true
-        description: "Runs `go vet`"  
+        description: "Runs `go vet`"
     -   id: go-tests
         name: 'go-tests'
         entry: hooks/run-go-tests.sh
         language: 'script'
         files: '\.go$'
         always_run: true
-        description: "Runs `go test`"          
+        description: "Runs `go test`"
     -   id: go-build
         name: 'go-build'
         entry: hooks/run-go-build.sh
-        files: '\.go$'
         language: 'script'
-        always_run: true         
+        files: '\.go$'
+        always_run: true
         description: "Runs `go build`, requires golang"
     -   id: go-mod-tidy
         name: 'go-mod-tidy'
         entry: hooks/run-go-mod-tidy.sh
-        files: '\.go$'
         language: 'script'
-        always_run: true         
+        files: '\.go$'
+        always_run: true
         description: "Runs `go mod tidy -v`, requires golang"
     -   id: go-mod-vendor
         name: 'go-mod-vendor'
         entry: hooks/run-go-mod-vendor.sh
-        files: '\.go$'
         language: 'script'
-        always_run: true         
+        files: '\.go$'
+        always_run: true
         description: "Runs `go mod vendor`, requires golang"
