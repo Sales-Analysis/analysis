@@ -11,12 +11,13 @@ repos:
         files: '\.go$'
         always_run: true
         description: "Runs `go fmt`"
-    -   id: vet
-        name: vet
-        entry: go vet       
-        language: system
+    -   id: go-vet
+        name: 'go-vet'
+        entry: hooks/run-go-vet.sh       
+        language: 'script'
+        files: '\.go$'
         always_run: true
-        files: ^$
+        description: "Runs `go vet`"  
     -   id: go-tests
         name: 'go-tests'
         entry: hooks/run-go-tests.sh
