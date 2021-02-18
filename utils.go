@@ -27,7 +27,7 @@ func findInt(arr []int, value int) (int, bool) {
 	return find(len(arr), func(i int) bool { return arr[i] == value })
 }
 
-// findInt searches for value in slice type float.
+// findFloat searches for value in slice type float.
 // If value exist return index and true, otherwise -1 and false.
 func findFloat64(arr []float64, value float64) (int, bool) {
 	return find(len(arr), func(i int) bool { return arr[i] == value })
