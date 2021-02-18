@@ -10,25 +10,27 @@ func sum(arr []float64) float64 {
 
 }
 
-// TODO переделать в универсальную функцию
 // find takes a slice and looks for an element in it. If found it will
 // return it's key, otherwise it will return -1 and a bool of false.
-func findFloat64(arr []float64, value float64) (int, bool) {
-	for i, v := range arr {
-		if v == value {
+func find(n int, f func(int) bool) (int, bool) {
+	for i := 0; i < n; i++ {
+		if f(i) {
 			return i, true
 		}
 	}
 	return -1, false
 }
 
+// findInt searches for value in slice type int.
+// If value exist return index and true, otherwise -1 and false.
 func findInt(arr []int, value int) (int, bool) {
-	for i, v := range arr {
-		if v == value {
-			return i, true
-		}
-	}
-	return -1, false
+	return find(len(arr), func(i int) bool { return arr[i] == value })
+}
+
+// findInt searches for value in slice type float.
+// If value exist return index and true, otherwise -1 and false.
+func findFloat64(arr []float64, value float64) (int, bool) {
+	return find(len(arr), func(i int) bool { return arr[i] == value })
 }
 
 // mapToSlice return two slice keys/values
