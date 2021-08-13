@@ -2,6 +2,7 @@ package abc
 
 import (
 	"encoding/csv"
+	"github.com/xuri/excelize/v2"
 	"os"
 )
 
@@ -51,7 +52,8 @@ func mapToSlice(data map[string]float64) ([]string, []float64) {
 }
 
 
-// read csv file
+// read csv file.
+// return map[int]interface{}, or error
 func readCsv(path string) (map[int]interface{}, error){
 	file, err := os.Open(path)
 	if err != nil {
@@ -70,6 +72,27 @@ func readCsv(path string) (map[int]interface{}, error){
 		}
 		records[row] = record
 		row += 1
+	}
+	return records, nil
+}
+
+// read excel file
+// return map[int]interface{}, or error
+func readExcel(path string) (map[int]interface{}, error){
+	file, err := excelize.OpenFile(path)
+	if err != nil {
+		return nil, err
+	}
+	// TODO: зависит от языка
+	rows, err := file.GetRows("Лист1")
+
+	if err != nil {
+		return nil, err
+	}
+
+	records := make(map[int]interface{})
+	for i, row := range rows {
+		records[i] = row
 	}
 	return records, nil
 }
