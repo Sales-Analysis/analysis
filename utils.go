@@ -1,5 +1,10 @@
 package abc
 
+import (
+	"encoding/csv"
+	"os"
+)
+
 // sum return total sum slice
 func sum(arr []float64) float64 {
 	total := 0.0
@@ -43,4 +48,28 @@ func mapToSlice(data map[string]float64) ([]string, []float64) {
 		values = append(values, value)
 	}
 	return keys, values
+}
+
+
+// read csv file
+func readCsv(path string) (map[int]interface{}, error){
+	file, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	reader := csv.NewReader(file)
+	records := make(map[int]interface{})
+	row := 0
+
+	for {
+		record, e := reader.Read()
+		if e != nil {
+			break
+		}
+		records[row] = record
+		row += 1
+	}
+	return records, nil
 }
