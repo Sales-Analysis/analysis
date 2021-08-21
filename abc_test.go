@@ -24,10 +24,35 @@ var groupTestData = []string {
 	"A", "A", "B", "C", "C",
 }
 
-func TestABC(t *testing.T) {
+func TestABCCsv(t *testing.T) {
 	records, _ := readCsv("./data/abc_test.csv")
 	measures, dimensions := preData(records)
-	report := getABC(measures, dimensions)
+	report := abc(measures, dimensions)
+
+	for i, v := range report.Measures {
+		if v != measuresTestData[i] {
+			t.Errorf("result array %v not equal test data %v", report.Measures, measuresTestData)
+		}
+		if report.Dimensions[i] != dimensionsTestData[i] {
+			t.Errorf("result array %v not equal test data %v", report.Dimensions[i], dimensionsTestData[i])
+		}
+		if report.Deposit[i] != depositTestData[i] {
+			t.Errorf("result array %v not equal test data %v", report.Deposit[i], depositTestData[i])
+		}
+		if report.CumulativeShare[i] != cumulativeShareTestData[i] {
+			t.Errorf("result array %v not equal test data %v", report.CumulativeShare[i], cumulativeShareTestData[i])
+		}
+		if report.Group[i] != groupTestData[i] {
+			t.Errorf("result array %v not equal test data %v", report.Group[i], groupTestData[i])
+		}
+	}
+}
+
+
+func TestABCExcel(t *testing.T) {
+	records, _ := readExcel("./data/abc_test.xlsx")
+	measures, dimensions := preData(records)
+	report := abc(measures, dimensions)
 
 	for i, v := range report.Measures {
 		if v != measuresTestData[i] {

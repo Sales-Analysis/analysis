@@ -2,7 +2,7 @@ package abc
 
 import (
 	"encoding/csv"
-	// "github.com/xuri/excelize/v2"
+	"github.com/xuri/excelize/v2"
 	"os"
 )
 
@@ -80,6 +80,7 @@ func readCsv(path string) (map[int]interface{}, error){
 		if e != nil {
 			break
 		}
+
 		r := make(map[int]interface{})
 		for i, v := range record {
 			r[i] = v
@@ -92,7 +93,6 @@ func readCsv(path string) (map[int]interface{}, error){
 
 // read excel file
 // return map[int]interface{}, or error
-/*
 func readExcel(path string) (map[int]interface{}, error){
 	file, err := excelize.OpenFile(path)
 	if err != nil {
@@ -104,11 +104,13 @@ func readExcel(path string) (map[int]interface{}, error){
 	if err != nil {
 		return nil, err
 	}
-
 	records := make(map[int]interface{})
 	for i, row := range rows {
-		records[i] = row
+		r := make(map[int]interface{})
+		for j, v := range row {
+			r[j] = v
+		}
+		records[i] = r
 	}
 	return records, nil
 }
- */

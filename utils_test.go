@@ -65,7 +65,7 @@ func TestReadCsv(t *testing.T) {
 	}
 }
 
-/*
+
 func TestReadExcel(t *testing.T)  {
 	records, err := readExcel("./data/abc_test.xlsx")
 	if err != nil {
@@ -75,5 +75,3 @@ func TestReadExcel(t *testing.T)  {
 		t.Errorf("Data loss")
 	}
 }
-
- */
