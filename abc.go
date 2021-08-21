@@ -18,7 +18,6 @@ type ABC struct {
 	Group []string
 }
 
-
 func abc(measures []string, dimensions []float64) (*ABC, error){
 
 	if err := validate(measures, dimensions); err != nil {
@@ -30,6 +29,7 @@ func abc(measures []string, dimensions []float64) (*ABC, error){
 	deposit := shareOfSales(d, total)
 	cs := cumulativeShare(deposit)
 	g := group(cs)
+
 	return &ABC{
 		m,
 		d,
