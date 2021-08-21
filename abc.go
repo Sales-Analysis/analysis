@@ -1,3 +1,9 @@
+// Package abc
+/*
+	ABC sales analysis identifies the share of each of the products (or categories) in the total turnover,
+	ranks the assortment positions (or categories) according to the degree of significance of their contribution
+	to the total turnover, assigning conditional classes: A, B, C
+*/
 package abc
 
 import (
