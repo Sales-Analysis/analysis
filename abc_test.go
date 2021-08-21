@@ -4,75 +4,46 @@ import (
 	"testing"
 )
 
-var measures = [][]string{
-	{"Товар11", "Товар12", "Товар13", "Товар14", "Товар15", "Товар16"},
-	{"Товар21", "Товар21", "Товар23", "Товар24", "Товар25", "Товар26"},
-	{"Товар31", "Товар31", "Товар31", "Товар31", "Товар31", "Товар31"},
-	{"Товар41", "Товар42"},
-	{"Товар51"},
-	{},
-	{"Товар7"},
-	{"Товар81", "Товар82"},
+var measuresTestData = []string {
+	"Товар 1", "Товар 2", "Товар 3", "Товар 4", "Товар 5",
 }
 
-var dimensions = [][]float64{
-	{1, 2, 3, 4, 5, 6},
-	{1, 2, 3, 4, 5, 6},
-	{1, 2, 3, 4, 5, 6},
-	{1, 2},
-	{1},
-	{1, 2, 3, 4, 5, 6},
-	{},
-	{1, -2},
+var dimensionsTestData = []float64 {
+	100, 50, 35, 20, 5,
 }
 
-// output dataset
-var groups = [][]string{
-	{"A", "A", "A", "B", "C", "C"},
-	{"A", "A", "A", "B", "C"},
-	{"C"},
-	{"A", "C"},
-	{"C"},
-}
-var sumDeposit = 100.0
-var sumDimensions = []float64{21.0, 21.0, 21.0, 3.0, 1.0}
-var errorSet = []string{
-	"measure size is 0",
-	"dimension size is 0",
-	"in the dimensions is a negative value",
+var depositTestData = []float64 {
+	47.61904761904762, 23.80952380952381, 16.666666666666668, 9.523809523809524, 2.380952380952381,
 }
 
-func findStr(array []string, str string) bool {
-	for _, v := range array {
-		if v == str {
-			return true
+var cumulativeShareTestData = []float64 {
+	47.61904761904762, 71.42857142857143, 88.0952380952381, 97.61904761904762, 100,
+}
+
+var groupTestData = []string {
+	"A", "A", "B", "C", "C",
+}
+
+func TestABC(t *testing.T) {
+	records, _ := readCsv("./data/abc_test.csv")
+	measures, dimensions := preData(records)
+	report := getABC(measures, dimensions)
+
+	for i, v := range report.Measures {
+		if v != measuresTestData[i] {
+			t.Errorf("result array %v not equal test data %v", report.Measures, measuresTestData)
 		}
-	}
-	return false
-}
-
-func TestCalcABC1(t *testing.T) {
-	for i, v := range measures {
-		abc, err := GetABC(v, dimensions[i])
-		if err != nil {
-			if findStr(errorSet, err.Error()) == false {
-				t.Errorf("error code is not exist: %s", err.Error())
-			}
-		} else {
-			if abc.SumDimensions != sumDimensions[i] {
-				t.Errorf("result array %v not equal test dataset %v", abc.SumDimensions, sumDimensions[i])
-			}
-			if int(abc.SumDeposit) != int(sumDeposit) {
-				t.Errorf("get sum deposit %f want sum deposit %f", abc.SumDeposit, sumDeposit)
-			}
-			if len(abc.Group) != len(groups[i]) {
-				t.Errorf("result array %v not equal test dataset %v", abc.Group, groups[i])
-			}
-			for j, v := range abc.Group {
-				if v != groups[i][j] {
-					t.Errorf("result array %v not equal test dataset %v", abc.Group, groups[i])
-				}
-			}
+		if report.Dimensions[i] != dimensionsTestData[i] {
+			t.Errorf("result array %v not equal test data %v", report.Dimensions[i], dimensionsTestData[i])
+		}
+		if report.Deposit[i] != depositTestData[i] {
+			t.Errorf("result array %v not equal test data %v", report.Deposit[i], depositTestData[i])
+		}
+		if report.CumulativeShare[i] != cumulativeShareTestData[i] {
+			t.Errorf("result array %v not equal test data %v", report.CumulativeShare[i], cumulativeShareTestData[i])
+		}
+		if report.Group[i] != groupTestData[i] {
+			t.Errorf("result array %v not equal test data %v", report.Group[i], groupTestData[i])
 		}
 	}
 }

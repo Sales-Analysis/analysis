@@ -1,116 +1,86 @@
-/*
-In materials management, ABC analysis is an inventory categorization technique.
-ABC analysis divides an inventory into three categories:
-	"A items" with very tight control and accurate records,
-	"B items" with less tightly controlled and good records,
-	"C items" with the simplest controls possible and minimal records.
-*/
-
 package abc
 
 import (
 	"sort"
 )
 
-// ABC represents set of methods for the analysis
 type ABC struct {
-	Measures            []string
-	Dimensions          []float64
-	Deposit             []float64
-	AccumulativeDeposit []float64
-	Group               []string
-	SumDeposit          float64
-	SumDimensions       float64
+	Measures []string
+	Dimensions []float64
+	Deposit []float64
+	CumulativeShare []float64
+	Group []string
 }
 
-// GetABC return link to the struct ABC
-func GetABC(measures []string, dimensions []float64) (*ABC, error) {
-	measures, dimensions, err := validate(measures, dimensions)
-	if err != nil {
-		return &ABC{}, err
+func getABC(measures []string, dimensions []float64) *ABC{
+	m, d := sortParameters(measures, dimensions)
+	total := totalSum(d)
+	deposit := shareOfSales(d, total)
+	cs := cumulativeShare(deposit)
+	g := group(cs)
+	return &ABC{
+		m,
+		d,
+		deposit,
+		cs,
+		g,
 	}
-	abc := &ABC{
-		Measures:   measures,
-		Dimensions: dimensions,
-	}
-	abc.sort()
-	abc.sumDimensions()
-	abc.deposit()
-	abc.sumPercent()
-	abc.accumDeposit()
-	abc.addGroup()
-	return abc, nil
 }
 
-// sum of all dimensions
-func (abc *ABC) sumDimensions() {
-	abc.SumDimensions = sum(abc.Dimensions)
-}
+// sortParameters Sorts the list in descending order of the sales value.
+func sortParameters(measures []string, dimensions []float64) ([]string, []float64){
+	d := make([]float64, len(dimensions))
+	copy(d, dimensions)
 
-// sum of all deposit
-func (abc *ABC) sumPercent() {
-	abc.SumDeposit = sum(abc.Deposit)
-}
-
-// sorting positions in descending order
-func (abc *ABC) sort() {
-	// fmt.Println(abc.Measures, abc.Dimensions)
-	d := make([]float64, len(abc.Dimensions))
-
-	copy(d, abc.Dimensions)
 	sort.Sort(sort.Reverse(sort.Float64Slice(d)))
 
 	var m []string
-	var idx []int
 	for _, v := range d {
-		i, _ := findFloat64(abc.Dimensions, v)
-		if _, ok := findInt(idx, i); ok {
-			i++
-		}
-		m = append(m, abc.Measures[i])
-		idx = append(idx, i)
-
+		index, _ := findFloat64(dimensions, v)
+		m = append(m, measures[index])
 	}
-
-	abc.Measures = m
-	abc.Dimensions = d
+	return m, d
 }
 
-// determine deposit each position
-func (abc *ABC) deposit() {
-	var d []float64
-
-	for _, v := range abc.Dimensions {
-		percent := v * 100.0 / abc.SumDimensions
-		d = append(d, percent)
-	}
-	abc.Deposit = d
+// totalSum Determines the total amount of sales.
+func totalSum(dimensions []float64) float64{
+	return sum(dimensions)
 }
 
-// accumulative percentage
-func (abc *ABC) accumDeposit() {
-	var a []float64
-	accum := 0.0
-	for _, v := range abc.Deposit {
-		accum += v
-		a = append(a, accum)
+// shareOfSales Determines the share of sales for each analyzed position
+// (sales for each are divided by the total amount, the value in % is output).
+//
+// The values are taken out in a separate column "share".
+func shareOfSales(dimensions []float64, total float64) []float64{
+	var deposit []float64
+	for _, v := range dimensions {
+		d := v * 100.0 / total
+		deposit = append(deposit, d)
 	}
-	abc.AccumulativeDeposit = a
+	return deposit
 }
 
-// add group A or B or C for each position
-func (abc *ABC) addGroup() {
-	// TODO границы групп сделать изменяемыми
+// cumulativeShare Considers the accumulated share as a cumulative total.
+//
+// The values are taken out in a separate next column "accumulated share".
+func cumulativeShare(deposit []float64)  []float64{
+	return cumulativeSum(deposit)
+}
+
+// group Assign categories A/B/C
+func group(cumulativeShare []float64) []string{
 	var g []string
 
-	for _, v := range abc.AccumulativeDeposit {
+	var position string
+	for _, v := range cumulativeShare {
 		if v <= 80.0 {
-			g = append(g, "A")
+			position = "A"
 		} else if v >= 80.0 && v <= 95.0 {
-			g = append(g, "B")
+			position = "B"
 		} else {
-			g = append(g, "C")
+			position = "C"
 		}
+		g = append(g, position)
 	}
-	abc.Group = g
+	return g
 }

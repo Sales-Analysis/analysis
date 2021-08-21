@@ -2,7 +2,7 @@ package abc
 
 import (
 	"encoding/csv"
-	"github.com/xuri/excelize/v2"
+	// "github.com/xuri/excelize/v2"
 	"os"
 )
 
@@ -13,7 +13,17 @@ func sum(arr []float64) float64 {
 		total += v
 	}
 	return total
+}
 
+// cumulativeSum return cumulative sum slice
+func cumulativeSum(arr []float64) []float64 {
+	var a []float64
+	accum := 0.0
+	for _, v := range arr {
+		accum += v
+		a = append(a, accum)
+	}
+	return a
 }
 
 // find takes a slice and looks for an element in it. If found it will
@@ -70,7 +80,11 @@ func readCsv(path string) (map[int]interface{}, error){
 		if e != nil {
 			break
 		}
-		records[row] = record
+		r := make(map[int]interface{})
+		for i, v := range record {
+			r[i] = v
+		}
+		records[row] = r
 		row += 1
 	}
 	return records, nil
@@ -78,6 +92,7 @@ func readCsv(path string) (map[int]interface{}, error){
 
 // read excel file
 // return map[int]interface{}, or error
+/*
 func readExcel(path string) (map[int]interface{}, error){
 	file, err := excelize.OpenFile(path)
 	if err != nil {
@@ -96,3 +111,4 @@ func readExcel(path string) (map[int]interface{}, error){
 	}
 	return records, nil
 }
+ */
