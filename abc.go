@@ -18,7 +18,13 @@ type ABC struct {
 	Group []string
 }
 
-func getABC(measures []string, dimensions []float64) *ABC{
+
+func abc(measures []string, dimensions []float64) (*ABC, error){
+
+	if err := validate(measures, dimensions); err != nil {
+		return &ABC{}, err
+	}
+
 	m, d := sortParameters(measures, dimensions)
 	total := totalSum(d)
 	deposit := shareOfSales(d, total)
@@ -30,7 +36,7 @@ func getABC(measures []string, dimensions []float64) *ABC{
 		deposit,
 		cs,
 		g,
-	}
+	}, nil
 }
 
 // sortParameters Sorts the list in descending order of the sales value.

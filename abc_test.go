@@ -27,7 +27,7 @@ var groupTestData = []string {
 func TestABCCsv(t *testing.T) {
 	records, _ := readCsv("./data/abc_test.csv")
 	measures, dimensions := preData(records)
-	report := abc(measures, dimensions)
+	report, _ := abc(measures, dimensions)
 
 	for i, v := range report.Measures {
 		if v != measuresTestData[i] {
@@ -52,7 +52,7 @@ func TestABCCsv(t *testing.T) {
 func TestABCExcel(t *testing.T) {
 	records, _ := readExcel("./data/abc_test.xlsx")
 	measures, dimensions := preData(records)
-	report := abc(measures, dimensions)
+	report, _ := abc(measures, dimensions)
 
 	for i, v := range report.Measures {
 		if v != measuresTestData[i] {
