@@ -18,12 +18,13 @@ type ABC struct {
 	Group []string
 }
 
+// abc return struct analysis
 func abc(measures []string, dimensions []float64) (*ABC, error){
 
 	if err := validate(measures, dimensions); err != nil {
 		return &ABC{}, err
 	}
-	m, d := sumDuplicate(measures, dimensions)
+	m, d := removeDuplicate(measures, dimensions)
 	m, d = sortParameters(m, d)
 	total := totalSum(d)
 	deposit := shareOfSales(d, total)
@@ -39,18 +40,25 @@ func abc(measures []string, dimensions []float64) (*ABC, error){
 	}, nil
 }
 
-// sumDuplicate return new array without duplicate
-func sumDuplicate(measures []string, dimensions []float64) ([]string, []float64){
-	d := make(map[string]float64)
+// sumDuplicate return new slices without duplicate
+func removeDuplicate(measures []string, dimensions []float64) ([]string, []float64) {
+	var m []string
+	var d []float64
 
-	for i, v := range measures {
-		if _, ok := d[v]; ok {
-			d[v] += dimensions[i]
-		} else {
-			d[v] = dimensions[i]
+	measuresKey := make(map[string]bool)
+	dimensionsKey := make(map[float64]bool)
+	for i, item := range measures {
+		_, vm := measuresKey[item]
+		_, vd := dimensionsKey[dimensions[i]]
+		if !vm || !vd{
+			measuresKey[item] = true
+			dimensionsKey[dimensions[i]] = true
+			m = append(m, item)
+			d = append(d, dimensions[i])
 		}
 	}
-	return mapToSlice(d)
+
+	return m, d
 }
 
 // sortParameters Sorts the list in descending order of the sales value.
