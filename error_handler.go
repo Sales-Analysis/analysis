@@ -5,6 +5,10 @@ import (
 	"fmt"
 )
 
+func createError(context string) error {
+	return errors.New(context)
+}
+
 type sizeError struct {
 	err error
 }
@@ -27,8 +31,4 @@ func (n *negativeValueError) Error() string {
 
 func negativeValueErr(err string) *negativeValueError {
 	return &negativeValueError{createError(err)}
-}
-
-func createError(context string) error {
-	return errors.New(context)
 }

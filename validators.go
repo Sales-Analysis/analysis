@@ -1,18 +1,17 @@
 package abc
 
-func validate(measures []string, dimensions []float64) ([]string, []float64, error) {
+func validate(measures []string, dimensions []float64) error{
 	if err := checkSize(measures, dimensions); err != nil {
-		return measures, dimensions, err
+		return err
 	}
 	if err := negativeValue(dimensions); err != nil {
-		return measures, dimensions, err
+		return err
 	}
-	measures, dimensions = uniqueMeasures(measures, dimensions)
-	return measures, dimensions, nil
+	return nil
 }
 
 // checkSize check length measure/dimension
-func checkSize(measures []string, dimensions []float64) error {
+func checkSize(measures []string, dimensions []float64)  error{
 	if len(measures) == 0 {
 		return sizeErr(measuresNotEqualZero)
 	} else if len(dimensions) == 0 {
@@ -25,26 +24,10 @@ func checkSize(measures []string, dimensions []float64) error {
 
 // negativeValue return error if there is one negative value
 func negativeValue(dimensions []float64) error {
-
 	for _, v := range dimensions {
 		if v < 0.0 {
 			return negativeValueErr(negativeValueDimensions)
 		}
 	}
-
 	return nil
-}
-
-// uniqueMeasures return new array without duplicate
-func uniqueMeasures(measures []string, dimensions []float64) ([]string, []float64) {
-	d := make(map[string]float64)
-
-	for i, v := range measures {
-		if _, ok := d[v]; ok {
-			d[v] += dimensions[i]
-		} else {
-			d[v] = dimensions[i]
-		}
-	}
-	return mapToSlice(d)
 }
