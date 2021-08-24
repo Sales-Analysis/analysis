@@ -19,12 +19,12 @@ type ABC struct {
 }
 
 // abc return struct analysis
-func abc(measures []string, dimensions []float64) (*ABC, error){
+func abc(pluID []int64, measures []string, dimensions []float64) (*ABC, error){
 
 	if err := validate(measures, dimensions); err != nil {
 		return &ABC{}, err
 	}
-	m, d := removeDuplicate(measures, dimensions)
+	m, d := removeDuplicate(pluID, measures, dimensions)
 	m, d = sortParameters(m, d)
 	total := totalSum(d)
 	deposit := shareOfSales(d, total)
@@ -41,23 +41,26 @@ func abc(measures []string, dimensions []float64) (*ABC, error){
 }
 
 // sumDuplicate return new slices without duplicate
-func removeDuplicate(measures []string, dimensions []float64) ([]string, []float64) {
+func removeDuplicate(pluID []int64, measures []string, dimensions []float64) ([]string, []float64) {
 	var m []string
 	var d []float64
 
+	pluIDKey := make(map[int64]bool)
 	measuresKey := make(map[string]bool)
 	dimensionsKey := make(map[float64]bool)
+
 	for i, item := range measures {
 		_, vm := measuresKey[item]
 		_, vd := dimensionsKey[dimensions[i]]
-		if !vm || !vd{
+		_, vp := pluIDKey[pluID[i]]
+		if !vm || !vd || !vp{
 			measuresKey[item] = true
 			dimensionsKey[dimensions[i]] = true
+			pluIDKey[pluID[i]] = true
 			m = append(m, item)
 			d = append(d, dimensions[i])
 		}
 	}
-
 	return m, d
 }
 
