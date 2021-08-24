@@ -99,7 +99,8 @@ func readExcel(path string) (map[int]interface{}, error){
 		return nil, err
 	}
 	// TODO: зависит от языка
-	rows, err := file.GetRows("Лист1")
+	// rows, err := file.GetRows("шаблон")
+	rows, err := file.GetRows("шаблон")
 
 	if err != nil {
 		return nil, err

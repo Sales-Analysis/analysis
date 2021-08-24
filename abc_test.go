@@ -28,7 +28,6 @@ func TestABCCsv(t *testing.T) {
 	records, _ := readCsv("./data/abc_test.csv")
 	measures, dimensions := preData(records)
 	report, _ := abc(measures, dimensions)
-
 	for i, v := range report.Measures {
 		if v != measuresTestData[i] {
 			t.Errorf("result array %v not equal test data %v", report.Measures, measuresTestData)
@@ -53,7 +52,6 @@ func TestABCExcel(t *testing.T) {
 	records, _ := readExcel("./data/abc_test.xlsx")
 	measures, dimensions := preData(records)
 	report, _ := abc(measures, dimensions)
-
 	for i, v := range report.Measures {
 		if v != measuresTestData[i] {
 			t.Errorf("result array %v not equal test data %v", report.Measures, measuresTestData)

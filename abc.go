@@ -23,8 +23,8 @@ func abc(measures []string, dimensions []float64) (*ABC, error){
 	if err := validate(measures, dimensions); err != nil {
 		return &ABC{}, err
 	}
-
-	m, d := sortParameters(measures, dimensions)
+	m, d := sumDuplicate(measures, dimensions)
+	m, d = sortParameters(m, d)
 	total := totalSum(d)
 	deposit := shareOfSales(d, total)
 	cs := cumulativeShare(deposit)
@@ -37,6 +37,20 @@ func abc(measures []string, dimensions []float64) (*ABC, error){
 		cs,
 		g,
 	}, nil
+}
+
+// sumDuplicate return new array without duplicate
+func sumDuplicate(measures []string, dimensions []float64) ([]string, []float64){
+	d := make(map[string]float64)
+
+	for i, v := range measures {
+		if _, ok := d[v]; ok {
+			d[v] += dimensions[i]
+		} else {
+			d[v] = dimensions[i]
+		}
+	}
+	return mapToSlice(d)
 }
 
 // sortParameters Sorts the list in descending order of the sales value.
