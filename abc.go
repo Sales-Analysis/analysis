@@ -18,12 +18,13 @@ type ABC struct {
 	Group []string
 }
 
-func abc(measures []string, dimensions []float64) (*ABC, error){
+// abc return struct analysis
+func abc(pluID []int64, measures []string, dimensions []float64) (*ABC, error){
 
 	if err := validate(measures, dimensions); err != nil {
 		return &ABC{}, err
 	}
-	m, d := sumDuplicate(measures, dimensions)
+	m, d := removeDuplicate(pluID, measures, dimensions)
 	m, d = sortParameters(m, d)
 	total := totalSum(d)
 	deposit := shareOfSales(d, total)
@@ -39,18 +40,28 @@ func abc(measures []string, dimensions []float64) (*ABC, error){
 	}, nil
 }
 
-// sumDuplicate return new array without duplicate
-func sumDuplicate(measures []string, dimensions []float64) ([]string, []float64){
-	d := make(map[string]float64)
+// sumDuplicate return new slices without duplicate
+func removeDuplicate(pluID []int64, measures []string, dimensions []float64) ([]string, []float64) {
+	var m []string
+	var d []float64
 
-	for i, v := range measures {
-		if _, ok := d[v]; ok {
-			d[v] += dimensions[i]
-		} else {
-			d[v] = dimensions[i]
+	pluIDKey := make(map[int64]bool)
+	measuresKey := make(map[string]bool)
+	dimensionsKey := make(map[float64]bool)
+
+	for i, item := range measures {
+		_, vm := measuresKey[item]
+		_, vd := dimensionsKey[dimensions[i]]
+		_, vp := pluIDKey[pluID[i]]
+		if !vm || !vd || !vp{
+			measuresKey[item] = true
+			dimensionsKey[dimensions[i]] = true
+			pluIDKey[pluID[i]] = true
+			m = append(m, item)
+			d = append(d, dimensions[i])
 		}
 	}
-	return mapToSlice(d)
+	return m, d
 }
 
 // sortParameters Sorts the list in descending order of the sales value.
