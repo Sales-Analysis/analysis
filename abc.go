@@ -16,6 +16,7 @@ type ABC struct {
 	Deposit []float64
 	CumulativeShare []float64
 	Group []string
+	Duplicates []duplicate
 }
 
 // abc return struct analysis
@@ -24,7 +25,7 @@ func abc(pluID []int64, measures []string, dimensions []float64) (*ABC, error){
 	if err := validate(measures, dimensions); err != nil {
 		return &ABC{}, err
 	}
-	m, d := removeDuplicate(pluID, measures, dimensions)
+	m, d, duplicates := removeDuplicate(pluID, measures, dimensions)
 	m, d = sortParameters(m, d)
 	total := totalSum(d)
 	deposit := shareOfSales(d, total)
@@ -37,11 +38,18 @@ func abc(pluID []int64, measures []string, dimensions []float64) (*ABC, error){
 		deposit,
 		cs,
 		g,
+		duplicates,
 	}, nil
 }
 
-// sumDuplicate return new slices without duplicate
-func removeDuplicate(pluID []int64, measures []string, dimensions []float64) ([]string, []float64) {
+type duplicate struct {
+	pluID int64
+	measure string
+	dimension float64
+}
+
+// removeDuplicate return new slices without duplicate
+func removeDuplicate(pluID []int64, measures []string, dimensions []float64) ([]string, []float64, []duplicate) {
 	var m []string
 	var d []float64
 
@@ -49,6 +57,7 @@ func removeDuplicate(pluID []int64, measures []string, dimensions []float64) ([]
 	measuresKey := make(map[string]bool)
 	dimensionsKey := make(map[float64]bool)
 
+	var duplicates []duplicate
 	for i, item := range measures {
 		_, vm := measuresKey[item]
 		_, vd := dimensionsKey[dimensions[i]]
@@ -59,9 +68,15 @@ func removeDuplicate(pluID []int64, measures []string, dimensions []float64) ([]
 			pluIDKey[pluID[i]] = true
 			m = append(m, item)
 			d = append(d, dimensions[i])
+		} else {
+			duplicates = append(duplicates, duplicate{
+				pluID: pluID[i],
+				measure: item,
+				dimension: dimensions[i],
+			})
 		}
 	}
-	return m, d
+	return m, d, duplicates
 }
 
 // sortParameters Sorts the list in descending order of the sales value.
