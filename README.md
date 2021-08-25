@@ -50,4 +50,21 @@ C – наименее эффективные товары с минимальн
 
 # Получение отчета ABC
 
-### Формат входных данных
+### Функция для расчета анализа abc 
+
+``` golang
+func abc(pluID []int64, measures []string, dimensions []float64) (*ABC, error)
+```
+
+### Формат возвращаемой структуры
+
+``` golang
+type ABC struct {
+	Measures []string
+	Dimensions []float64
+	Deposit []float64
+	CumulativeShare []float64
+	Group []string
+	Duplicates []duplicate
+}
+```
