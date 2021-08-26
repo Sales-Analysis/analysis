@@ -1,4 +1,4 @@
-module sales-analysis.com/abc
+module github.com/Sales-Analysis/analysis
 
 go 1.15
 
