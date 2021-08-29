@@ -11,16 +11,16 @@ import (
 )
 
 type ABC struct {
-	Measures []string
-	Dimensions []float64
-	Deposit []float64
+	Measures        []string
+	Dimensions      []float64
+	Deposit         []float64
 	CumulativeShare []float64
-	Group []string
-	Duplicates []duplicate
+	Group           []string
+	Duplicates      []duplicate
 }
 
 // abc return struct analysis
-func abc(pluID []int64, measures []string, dimensions []float64) (*ABC, error){
+func ABCReport(pluID []int64, measures []string, dimensions []float64) (*ABC, error) {
 
 	if err := validate(measures, dimensions); err != nil {
 		return &ABC{}, err
@@ -43,8 +43,8 @@ func abc(pluID []int64, measures []string, dimensions []float64) (*ABC, error){
 }
 
 type duplicate struct {
-	pluID int64
-	measure string
+	pluID     int64
+	measure   string
 	dimension float64
 }
 
@@ -62,7 +62,7 @@ func removeDuplicate(pluID []int64, measures []string, dimensions []float64) ([]
 		_, vm := measuresKey[item]
 		_, vd := dimensionsKey[dimensions[i]]
 		_, vp := pluIDKey[pluID[i]]
-		if !vm || !vd || !vp{
+		if !vm || !vd || !vp {
 			measuresKey[item] = true
 			dimensionsKey[dimensions[i]] = true
 			pluIDKey[pluID[i]] = true
@@ -70,8 +70,8 @@ func removeDuplicate(pluID []int64, measures []string, dimensions []float64) ([]
 			d = append(d, dimensions[i])
 		} else {
 			duplicates = append(duplicates, duplicate{
-				pluID: pluID[i],
-				measure: item,
+				pluID:     pluID[i],
+				measure:   item,
 				dimension: dimensions[i],
 			})
 		}
@@ -80,7 +80,7 @@ func removeDuplicate(pluID []int64, measures []string, dimensions []float64) ([]
 }
 
 // sortParameters Sorts the list in descending order of the sales value.
-func sortParameters(measures []string, dimensions []float64) ([]string, []float64){
+func sortParameters(measures []string, dimensions []float64) ([]string, []float64) {
 	d := make([]float64, len(dimensions))
 	copy(d, dimensions)
 
@@ -95,7 +95,7 @@ func sortParameters(measures []string, dimensions []float64) ([]string, []float6
 }
 
 // totalSum Determines the total amount of sales.
-func totalSum(dimensions []float64) float64{
+func totalSum(dimensions []float64) float64 {
 	return sum(dimensions)
 }
 
@@ -103,7 +103,7 @@ func totalSum(dimensions []float64) float64{
 // (sales for each are divided by the total amount, the value in % is output).
 //
 // The values are taken out in a separate column "share".
-func shareOfSales(dimensions []float64, total float64) []float64{
+func shareOfSales(dimensions []float64, total float64) []float64 {
 	var deposit []float64
 	for _, v := range dimensions {
 		d := v * 100.0 / total
@@ -115,12 +115,12 @@ func shareOfSales(dimensions []float64, total float64) []float64{
 // cumulativeShare Considers the accumulated share as a cumulative total.
 //
 // The values are taken out in a separate next column "accumulated share".
-func cumulativeShare(deposit []float64)  []float64{
+func cumulativeShare(deposit []float64) []float64 {
 	return cumulativeSum(deposit)
 }
 
 // group Assign categories A/B/C
-func group(cumulativeShare []float64) []string{
+func group(cumulativeShare []float64) []string {
 	var g []string
 
 	var position string

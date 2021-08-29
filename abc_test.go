@@ -4,31 +4,30 @@ import (
 	"testing"
 )
 
-var measuresTestData = []string {
+var measuresTestData = []string{
 	"Товар 1", "Товар 2", "Товар 3", "Товар 4", "Товар 5",
 }
 
-var dimensionsTestData = []float64 {
+var dimensionsTestData = []float64{
 	100, 50, 35, 20, 5,
 }
 
-var depositTestData = []float64 {
+var depositTestData = []float64{
 	47.61904761904762, 23.80952380952381, 16.666666666666668, 9.523809523809524, 2.380952380952381,
 }
 
-var cumulativeShareTestData = []float64 {
+var cumulativeShareTestData = []float64{
 	47.61904761904762, 71.42857142857143, 88.0952380952381, 97.61904761904762, 100,
 }
 
-var groupTestData = []string {
+var groupTestData = []string{
 	"A", "A", "B", "C", "C",
 }
-
 
 func TestABCCsv(t *testing.T) {
 	records, _ := readCsv("./data/abc_test.csv")
 	pluID, measures, dimensions := preData(records)
-	report, _ := abc(pluID, measures, dimensions)
+	report, _ := ABCReport(pluID, measures, dimensions)
 	for i, v := range report.Measures {
 		if v != measuresTestData[i] {
 			t.Errorf("result array %v not equal test data %v", report.Measures, measuresTestData)
@@ -47,12 +46,11 @@ func TestABCCsv(t *testing.T) {
 		}
 	}
 }
-
 
 func TestABCExcel(t *testing.T) {
 	records, _ := readExcel("./data/abc_test.xlsx")
 	pluID, measures, dimensions := preData(records)
-	report, _ := abc(pluID, measures, dimensions)
+	report, _ := ABCReport(pluID, measures, dimensions)
 	for i, v := range report.Measures {
 		if v != measuresTestData[i] {
 			t.Errorf("result array %v not equal test data %v", report.Measures, measuresTestData)
@@ -72,10 +70,10 @@ func TestABCExcel(t *testing.T) {
 	}
 }
 
-func TestABCDuplicates(t *testing.T)  {
+func TestABCDuplicates(t *testing.T) {
 	records, _ := readCsv("./data/abc_simple.csv")
 	pluID, measures, dimensions := preData(records)
-	report, _ := abc(pluID, measures, dimensions)
+	report, _ := ABCReport(pluID, measures, dimensions)
 	if len(report.Duplicates) != 1 {
 		t.Errorf("length result array %v not equal test data %v", len(report.Duplicates), 1)
 	}
