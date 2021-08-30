@@ -66,7 +66,7 @@ import abc "github.com/Sales-Analysis/analysis"
 ### Функция для расчета анализа abc
 
 ``` golang
-func ABCReport(pluID []int64, measures []string, dimensions []float64) (*ABC, error)
+func ABC(pluID []int64, measures []string, dimensions []float64) (*abc.ABC, error) {
 ```
 
 ### Формат возвращаемой структуры
