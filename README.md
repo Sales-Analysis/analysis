@@ -11,7 +11,7 @@ import analysis "github.com/Sales-Analysis/analysis"
 ```
 
 # Типы анализов
- * [ABC](https://github.com/Sales-Analysis/analysis/edit/master/README.md?#16)
+ * [ABC](https://github.com/Sales-Analysis/analysis/edit/master/README.md?#L16)
  
 ## Что таое АВС анализ?
 
