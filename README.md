@@ -85,6 +85,9 @@ C – наименее эффективные товары с минимальн
 ##### Функция для расчета анализа abc
 
 ``` golang
+// pluID - код идентификатор PLU
+// measures - наименование анализируемых позиций
+// dimensions - данные по анализируемому критерию (продажи/оборот/прибыль)
 func ABC(pluID []int64, measures []string, dimensions []float64) (*abc.ABC, error)
 ```
 
@@ -99,4 +102,12 @@ type ABC struct {
 	Group []string
 	Duplicates []duplicate
 }
+```
+##### Коды ошибок
+
+``` golang
+measuresNotEqualZero       = "measure size is 0"
+dimensionsNotEqualZero     = "dimension size is 0"
+measuresNotEqualDimensions = "size measure and dimension to equal"
+negativeValueDimensions    = "in the dimensions is a negative value"
 ```
