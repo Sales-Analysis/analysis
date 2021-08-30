@@ -58,7 +58,7 @@ go get github.com/Sales-Analysis/analysis
 
 2. Импорт
 ``` golang
-import abc "github.com/Sales-Analysis/analysis"
+import analysis "github.com/Sales-Analysis/analysis"
 ```
 
 # Получение отчета ABC
