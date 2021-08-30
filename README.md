@@ -48,9 +48,22 @@ C – наименее эффективные товары с минимальн
 | Коробка 3     |     20,00р    |      11%      |         97%          |      C      |
 | Коробка 4     |      5,00р    |       2%      |        100%          |      C      |
 
+
+# Установка
+
+1. Сначала необходимо установить [Go](https://golang.org/) (требуется версия 1.15+), затем вы можете использовать приведенную ниже команду Go для установки Analysis.
+``` golang
+go get github.com/Sales-Analysis/analysis
+```
+
+2. Импорт
+``` golang
+import abc "github.com/Sales-Analysis/analysis"
+```
+
 # Получение отчета ABC
 
-### Функция для расчета анализа abc 
+### Функция для расчета анализа abc
 
 ``` golang
 func ABCReport(pluID []int64, measures []string, dimensions []float64) (*ABC, error)
