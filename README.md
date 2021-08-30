@@ -85,7 +85,7 @@ C – наименее эффективные товары с минимальн
 ##### Функция для расчета анализа abc
 
 ``` golang
-func ABC(pluID []int64, measures []string, dimensions []float64) (*abc.ABC, error) {
+func ABC(pluID []int64, measures []string, dimensions []float64) (*abc.ABC, error)
 ```
 
 ##### Формат возвращаемой структуры
