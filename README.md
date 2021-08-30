@@ -95,19 +95,19 @@ func ABC(pluID []int64, measures []string, dimensions []float64) (*abc.ABC, erro
 
 ``` golang
 type ABC struct {
-	Measures []string
-	Dimensions []float64
-	Deposit []float64
-	CumulativeShare []float64
-	Group []string
-	Duplicates []duplicate
+	Measures []string // Наименование анализируемых позиций
+	Dimensions []float64 // Данные по анализируемому критерию (продажи/оборот/прибыль)
+	Deposit []float64 // Доля продаж
+	CumulativeShare []float64 // Накопительная доля
+	Group []string // Категории
+	Duplicates []duplicate // Дубликаты анализируемых позиций, которые не попали в расчет
 }
 ```
 ##### Коды ошибок
 
 ``` golang
-measuresNotEqualZero       = "measure size is 0"
-dimensionsNotEqualZero     = "dimension size is 0"
-measuresNotEqualDimensions = "size measure and dimension to equal"
-negativeValueDimensions    = "in the dimensions is a negative value"
+measuresNotEqualZero       = "Measure size is 0"
+dimensionsNotEqualZero     = "Dimension size is 0"
+measuresNotEqualDimensions = "Size measure and dimension to equal"
+negativeValueDimensions    = "In the dimensions is a negative value"
 ```
