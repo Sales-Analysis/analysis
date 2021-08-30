@@ -1,4 +1,4 @@
-package abc
+package analysis
 
 import (
 	"testing"
@@ -27,7 +27,7 @@ var groupTestData = []string{
 func TestABCCsv(t *testing.T) {
 	records, _ := readCsv("./data/abc_test.csv")
 	pluID, measures, dimensions := preData(records)
-	report, _ := ABCReport(pluID, measures, dimensions)
+	report, _ := ABC(pluID, measures, dimensions)
 	for i, v := range report.Measures {
 		if v != measuresTestData[i] {
 			t.Errorf("result array %v not equal test data %v", report.Measures, measuresTestData)
@@ -50,7 +50,7 @@ func TestABCCsv(t *testing.T) {
 func TestABCExcel(t *testing.T) {
 	records, _ := readExcel("./data/abc_test.xlsx")
 	pluID, measures, dimensions := preData(records)
-	report, _ := ABCReport(pluID, measures, dimensions)
+	report, _ := ABC(pluID, measures, dimensions)
 	for i, v := range report.Measures {
 		if v != measuresTestData[i] {
 			t.Errorf("result array %v not equal test data %v", report.Measures, measuresTestData)
@@ -73,13 +73,13 @@ func TestABCExcel(t *testing.T) {
 func TestABCDuplicates(t *testing.T) {
 	records, _ := readCsv("./data/abc_simple.csv")
 	pluID, measures, dimensions := preData(records)
-	report, _ := ABCReport(pluID, measures, dimensions)
+	report, _ := ABC(pluID, measures, dimensions)
 	if len(report.Duplicates) != 1 {
 		t.Errorf("length result array %v not equal test data %v", len(report.Duplicates), 1)
 	}
-	if (report.Duplicates[0].pluID != 1) &&
-		(report.Duplicates[0].measure != "Товар 1") &&
-		(report.Duplicates[0].dimension != 100) {
+	if (report.Duplicates[0].PluID != 1) &&
+		(report.Duplicates[0].Measure != "Товар 1") &&
+		(report.Duplicates[0].Dimension != 100) {
 		t.Errorf("The values in the structure differ from the test values")
 	}
 }

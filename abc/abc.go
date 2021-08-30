@@ -19,9 +19,8 @@ type ABC struct {
 	Duplicates      []duplicate
 }
 
-// abc return struct analysis
-func ABCReport(pluID []int64, measures []string, dimensions []float64) (*ABC, error) {
-
+// Report return struct analysis
+func Report(pluID []int64, measures []string, dimensions []float64) (*ABC, error) {
 	if err := validate(measures, dimensions); err != nil {
 		return &ABC{}, err
 	}
@@ -43,9 +42,9 @@ func ABCReport(pluID []int64, measures []string, dimensions []float64) (*ABC, er
 }
 
 type duplicate struct {
-	pluID     int64
-	measure   string
-	dimension float64
+	PluID     int64
+	Measure   string
+	Dimension float64
 }
 
 // removeDuplicate return new slices without duplicate
@@ -70,9 +69,9 @@ func removeDuplicate(pluID []int64, measures []string, dimensions []float64) ([]
 			d = append(d, dimensions[i])
 		} else {
 			duplicates = append(duplicates, duplicate{
-				pluID:     pluID[i],
-				measure:   item,
-				dimension: dimensions[i],
+				PluID:     pluID[i],
+				Measure:   item,
+				Dimension: dimensions[i],
 			})
 		}
 	}
