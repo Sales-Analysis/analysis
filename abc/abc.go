@@ -1,4 +1,3 @@
-// Package abc
 /*
 	ABC sales analysis identifies the share of each of the products (or categories) in the total turnover,
 	ranks the assortment positions (or categories) according to the degree of significance of their contribution
@@ -10,17 +9,24 @@ import (
 	"sort"
 )
 
-type ABC struct {
-	Measures        []string
-	Dimensions      []float64
-	Deposit         []float64
-	CumulativeShare []float64
-	Group           []string
-	Duplicates      []duplicate
+// AbcTwoParameters return struct analysis
+func AbcTwoParameters(pluID []int64, measures []string, dimensionsSales []float64, dimensionsMargin []float64) *ABCSM{
+	reportSales, _ := Abc(pluID, measures, dimensionsSales)
+	reportMargin, _ := Abc(pluID, measures, dimensionsMargin)
+	return &ABCSM{
+		reportSales,
+		reportMargin,
+	}
 }
 
-// Report return struct analysis
-func Report(pluID []int64, measures []string, dimensions []float64) (*ABC, error) {
+
+func combineGroup() {
+	panic("Not implemented")
+}
+
+
+// Abc return struct analysis
+func Abc(pluID []int64, measures []string, dimensions []float64) (*ABC, error) {
 	if err := validate(measures, dimensions); err != nil {
 		return &ABC{}, err
 	}
@@ -39,12 +45,6 @@ func Report(pluID []int64, measures []string, dimensions []float64) (*ABC, error
 		g,
 		duplicates,
 	}, nil
-}
-
-type duplicate struct {
-	PluID     int64
-	Measure   string
-	Dimension float64
 }
 
 // removeDuplicate return new slices without duplicate

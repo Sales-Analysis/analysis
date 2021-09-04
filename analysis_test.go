@@ -26,7 +26,7 @@ var groupTestData = []string{
 
 func TestABCCsv(t *testing.T) {
 	records, _ := readCsv("./data/abc_test.csv")
-	pluID, measures, dimensions := preData(records)
+	pluID, measures, dimensions, _ := preData(records)
 	report, _ := ABC(pluID, measures, dimensions)
 	for i, v := range report.Measures {
 		if v != measuresTestData[i] {
@@ -49,7 +49,7 @@ func TestABCCsv(t *testing.T) {
 
 func TestABCExcel(t *testing.T) {
 	records, _ := readExcel("./data/abc_test.xlsx")
-	pluID, measures, dimensions := preData(records)
+	pluID, measures, dimensions, _ := preData(records)
 	report, _ := ABC(pluID, measures, dimensions)
 	for i, v := range report.Measures {
 		if v != measuresTestData[i] {
@@ -72,7 +72,7 @@ func TestABCExcel(t *testing.T) {
 
 func TestABCDuplicates(t *testing.T) {
 	records, _ := readCsv("./data/abc_simple.csv")
-	pluID, measures, dimensions := preData(records)
+	pluID, measures, dimensions, _ := preData(records)
 	report, _ := ABC(pluID, measures, dimensions)
 	if len(report.Duplicates) != 1 {
 		t.Errorf("length result array %v not equal test data %v", len(report.Duplicates), 1)
@@ -82,4 +82,10 @@ func TestABCDuplicates(t *testing.T) {
 		(report.Duplicates[0].Dimension != 100) {
 		t.Errorf("The values in the structure differ from the test values")
 	}
+}
+
+func TestABCTwoParameters(t *testing.T) {
+	records, _ := readCsv("./data/abc_two_parameters.csv")
+	pluID, measures, dimensionsSales, dimensionsMargin := preData(records)
+	ABCTwoParameters(pluID, measures, dimensionsSales, dimensionsMargin)
 }
