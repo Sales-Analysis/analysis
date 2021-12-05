@@ -22,6 +22,12 @@ go get github.com/Sales-Analysis/analysis
 import analysis "github.com/Sales-Analysis/analysis"
 ```
 
+#### For developers
+
+#### Pre-commit-Go
+A set of git pre-commit hooks for Golang.
+Requires the [Pre-Commit.com](https://pre-commit.com) Hook Management Framework.
+
 # Типы анализов
   - [ABC](#ABC)
     - [Что такое АВС анализ?](#Что-тако-АВС-анализ?)
