@@ -80,6 +80,7 @@ func removeDuplicate(pluID []int64, measures []string, dimensions []float64) ([]
 
 // sortParameters Sorts the list in descending order of the sales value.
 func sortParameters(measures []string, dimensions []float64) ([]string, []float64) {
+	// TODO: problem if duplicate dimensions
 	d := make([]float64, len(dimensions))
 	copy(d, dimensions)
 
