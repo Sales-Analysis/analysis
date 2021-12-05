@@ -1,0 +1,53 @@
+default_stages: [commit]
+exclude: ^be/
+
+repos:
+  -   repo: local
+      hooks:
+        -   id: go-fmt
+            name: 'go-fmt'
+            entry: .pre-commit-hooks/run-go-fmt.sh
+            language: 'script'
+            files: '\.go$'
+            always_run: true
+            description: "Runs `go fmt`"
+        -   id: go-vet
+            name: 'go-vet'
+            entry: .pre-commit-hooks/run-go-vet.sh
+            language: 'script'
+            files: '\.go$'
+            always_run: true
+            description: "Runs `go vet`"
+        -   id: go-tests
+            name: 'go-tests'
+            entry: .pre-commit-hooks/run-go-tests.sh
+            language: 'script'
+            files: '\.go$'
+            always_run: true
+            description: "Runs `go test`"
+        -   id: go-build
+            name: 'go-build'
+            entry: .pre-commit-hooks/run-go-build.sh
+            language: 'script'
+            files: '\.go$'
+            always_run: true
+            description: "Runs `go build`, requires golang"
+        -   id: go-mod-tidy
+            name: 'go-mod-tidy'
+            entry: .pre-commit-hooks/run-go-mod-tidy.sh
+            language: 'script'
+            files: '\.go$'
+            always_run: true
+            description: "Runs `go mod tidy -v`, requires golang"
+        -   id: go-mod-vendor
+            name: 'go-mod-vendor'
+            entry: .pre-commit-hooks/run-go-mod-vendor.sh
+            language: 'script'
+            files: '\.go$'
+            always_run: true
+            description: "Runs `go mod vendor`, requires golang"
+        -   id: commitizen
+            name: Running commitizen
+            entry: cz check --commit-msg-file
+            language: system
+            stages: [commit-msg]
