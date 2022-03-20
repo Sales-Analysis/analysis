@@ -43,6 +43,12 @@ func findFloat64(arr []float64, value float64) (int, bool) {
 	return find(len(arr), func(i int) bool { return arr[i] == value })
 }
 
+// findString searches for value in slice type string.
+// If value exist return index and true, otherwise -1 and false.
+func findString(arr []string, value string) (int, bool) {
+	return find(len(arr), func(i int) bool { return arr[i] == value })
+}
+
 // mapToSlice return two slice keys/values
 func mapToSlice(data map[string]float64) ([]string, []float64) {
 	var keys []string
