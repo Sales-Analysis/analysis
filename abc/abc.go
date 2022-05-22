@@ -80,18 +80,23 @@ func removeDuplicate(pluID []int64, measures []string, dimensions []float64) ([]
 
 // sortParameters Sorts the list in descending order of the sales value.
 func sortParameters(measures []string, dimensions []float64) ([]string, []float64) {
-	// TODO: problem if duplicate dimensions
+	m := make([]string, len(measures))
 	d := make([]float64, len(dimensions))
+	d2 := make([]float64, len(dimensions))
+	copy(m, measures)
 	copy(d, dimensions)
+	copy(d2, dimensions)
 
 	sort.Sort(sort.Reverse(sort.Float64Slice(d)))
 
-	var m []string
+	var m2 []string
 	for _, v := range d {
-		index, _ := findFloat64(dimensions, v)
-		m = append(m, measures[index])
+		index, _ := findFloat64(d2, v)
+		m2 = append(m2, m[index])
+		m = append(m[:index], m[index+1:]...)
+		d2 = append(d2[:index], d2[index+1:]...)
 	}
-	return m, d
+	return m2, d	
 }
 
 // totalSum Determines the total amount of sales.
