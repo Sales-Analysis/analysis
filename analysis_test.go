@@ -28,6 +28,7 @@ func TestABCCsv(t *testing.T) {
 	records, _ := readCsv("./data/abc_test.csv")
 	pluID, measures, dimensions := preData(records)
 	report, _ := ABC(pluID, measures, dimensions)
+	// fmt.Println(report.Measures, measuresTestData)
 	for i, v := range report.Measures {
 		if v != measuresTestData[i] {
 			t.Errorf("result array %v not equal test data %v", report.Measures, measuresTestData)
@@ -82,4 +83,21 @@ func TestABCDuplicates(t *testing.T) {
 		(report.Duplicates[0].Dimension != 100) {
 		t.Errorf("The values in the structure differ from the test values")
 	}
+}
+
+func TestACBDuplicateValues(t *testing.T) {
+	var pluID = []int64{
+		1, 2, 3, 4, 5,
+	}
+	var measures = []string{
+		"Товар 1", "Товар 2", "Товар 3", "Товар 4", "Товар 5",
+	}
+
+	var dimensions = []float64{
+		100, 200, 100, 35, 5,
+	}
+
+	ABC(pluID, measures, dimensions)
+
+	// fmt.Println(report)
 }
